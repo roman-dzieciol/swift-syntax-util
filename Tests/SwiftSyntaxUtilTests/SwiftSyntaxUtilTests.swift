@@ -9,10 +9,10 @@ final class SwiftSyntaxUtilTests: XCTestCase {
         }
 
         let sourceDecl = SourceFileSyntax { (b) in
-            b.addCodeBlockItem(CodeBlockItemSyntax({ (b) in
+            b.addStatement(CodeBlockItemSyntax({ (b) in
                 b.useItem(FunctionDeclSyntax({ (b) in
                     b.useBody(CodeBlockSyntax({ (b) in
-                        b.addCodeBlockItem(CodeBlockItemSyntax({ (b) in
+                        b.addStatement(CodeBlockItemSyntax({ (b) in
                             b.useItem(VariableDeclSyntax({ (b) in
                                 b.addAttribute(AttributeSyntax({ (b) in
                                 }))
@@ -24,14 +24,14 @@ final class SwiftSyntaxUtilTests: XCTestCase {
         }
 
         let sourceCodeListDecl = sourceDecl.statements
-        let sourceCodeItemDecl = sourceCodeListDecl[0]
+        let sourceCodeItemDecl = sourceCodeListDecl.first(where: {_ in true})!
         let funcDeclAnc = try XCTUnwrap(sourceCodeItemDecl.item as? FunctionDeclSyntax)
         let funcCodeBlockDecl = try XCTUnwrap(funcDeclAnc.body)
         let funcCodeListDecl = funcCodeBlockDecl.statements
-        let funcCodeItemDecl = funcCodeListDecl[0]
+        let funcCodeItemDecl = funcCodeListDecl.first(where: {_ in true})!
         let varDecl = try XCTUnwrap(funcCodeItemDecl.item as? VariableDeclSyntax)
         let attrListDecl = try XCTUnwrap(varDecl.attributes)
-        let attrDecl = attrListDecl[0]
+        let attrDecl = attrListDecl.first(where: {_ in true})!
 
         var current: Syntax? = attrDecl
         while let currentParent = current?.parent {
