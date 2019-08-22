@@ -25,12 +25,12 @@ final class SwiftSyntaxUtilTests: XCTestCase {
 
         let sourceCodeListDecl = sourceDecl.statements
         let sourceCodeItemDecl = sourceCodeListDecl.first(where: {_ in true})!
-        let funcDeclAnc = try XCTUnwrap(sourceCodeItemDecl.item as? FunctionDeclSyntax)
-        let funcCodeBlockDecl = try XCTUnwrap(funcDeclAnc.body)
+        let funcDeclAnc = sourceCodeItemDecl.item as! FunctionDeclSyntax
+        let funcCodeBlockDecl = funcDeclAnc.body!
         let funcCodeListDecl = funcCodeBlockDecl.statements
         let funcCodeItemDecl = funcCodeListDecl.first(where: {_ in true})!
-        let varDecl = try XCTUnwrap(funcCodeItemDecl.item as? VariableDeclSyntax)
-        let attrListDecl = try XCTUnwrap(varDecl.attributes)
+        let varDecl = funcCodeItemDecl.item as! VariableDeclSyntax
+        let attrListDecl = varDecl.attributes!
         let attrDecl = attrListDecl.first(where: {_ in true})!
 
         var current: Syntax? = attrDecl
